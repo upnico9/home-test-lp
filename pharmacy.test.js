@@ -11,6 +11,15 @@ describe("Pharmacy", () => {
     expect(drug.benefit).toBe(2);
   });
 
+  test("should handle basic drugs expired", () => {
+    const drug = new Drug("test", 0, 6);
+    const pharmacy = new Pharmacy([drug]);
+
+    pharmacy.updateBenefitValue();
+
+    expect(drug.expiresIn).toBe(-1);
+    expect(drug.benefit).toBe(4);
+  });
 
   test("should handle Herbal Tea", () => {
     const drug = new Drug('Herbal Tea', 10, 5);

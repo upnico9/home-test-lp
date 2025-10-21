@@ -6,9 +6,33 @@ export class Drug {
   }
 }
 
+class DrugUpdateStrategy {
+  update(drug) {
+    throw new Error("Update method not implemented");
+  }
+}
+
+class DefaultDrugStrategy extends DrugUpdateStrategy {
+    update(drug) {
+
+    if (drug.benefit > 0) {
+      drug.benefit = Math.max(0, drug.benefit - 1);
+    }
+
+    drug.expiresIn -= 1;
+
+    if (drug.expiresIn < 0 && drug.benefit > 0) {
+      drug.benefit = Math.max(0, drug.benefit - 1);
+    }
+    
+  }
+}
+
 export class Pharmacy {
   constructor(drugs = []) {
     this.drugs = drugs;
+
+    this.defaultDrugStrategy = new DefaultDrugStrategy();
   }
 
   updateBenefitValue() {
@@ -22,9 +46,9 @@ export class Pharmacy {
       } else if (this._isHerbalTea(drug)) {
         this._updateHerbalTea(drug);
       } else {
-        this._updateNormalDrug(drug);
+        this.defaultDrugStrategy.update(drug);
       }
-      
+
     }
 
     return this.drugs;
@@ -84,19 +108,6 @@ export class Pharmacy {
       if (drug.benefit < 50) {
         drug.benefit = drug.benefit + 1;
       }
-    }
-  }
-
-
-  _updateNormalDrug(drug) {
-    if (drug.benefit > 0) {
-      drug.benefit = Math.max(0, drug.benefit - 1);
-    }
-
-    drug.expiresIn -= 1;
-
-    if (drug.expiresIn < 0 && drug.benefit > 0) {
-      drug.benefit = Math.max(0, drug.benefit - 1);
     }
   }
 
