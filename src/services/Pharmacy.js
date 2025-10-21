@@ -2,7 +2,8 @@ import {
     DefaultDrugStrategy,
     FervexStrategy,
     HerbalTeaStrategy,
-    MagicPillStrategy
+    MagicPillStrategy,
+    DafalganStrategy
 } from "../strategies/index.js";
 
 
@@ -15,6 +16,7 @@ export class Pharmacy {
             "Fervex": new FervexStrategy(),
             "Herbal Tea": new HerbalTeaStrategy(),
             "Magic Pill": new MagicPillStrategy(),
+            "Dafalgan": new DafalganStrategy()
         };
     }
 

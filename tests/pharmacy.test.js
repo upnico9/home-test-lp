@@ -91,4 +91,24 @@ describe("Pharmacy", () => {
     expect(drug.expiresIn).toBe(-1);
     expect(drug.benefit).toBe(0);
   });
+
+  test("should handle Dafalgan", () => {
+    const drug = new Drug("Dafalgan", 10, 20);
+    const pharmacy = new Pharmacy([drug]);
+
+    pharmacy.updateBenefitValue();
+
+    expect(drug.expiresIn).toBe(9);
+    expect(drug.benefit).toBe(18);
+  });
+
+  test("should handle Dafalgan expired", () => {
+    const drug = new Drug("Dafalgan", 0, 20);
+    const pharmacy = new Pharmacy([drug]);
+
+    pharmacy.updateBenefitValue();
+
+    expect(drug.expiresIn).toBe(-1);
+    expect(drug.benefit).toBe(16);
+  });
 });
