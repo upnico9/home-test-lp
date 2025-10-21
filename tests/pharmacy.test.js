@@ -1,4 +1,4 @@
-import { Drug, Pharmacy } from "./pharmacy";
+import { Drug, Pharmacy } from "../src/index.js";
 
 describe("Pharmacy", () => {
   test("should handle basic drugs", () => {

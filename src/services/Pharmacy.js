@@ -1,38 +1,15 @@
-export class Drug {
-  constructor(name, expiresIn, benefit) {
-    this.name = name;
-    this.expiresIn = expiresIn;
-    this.benefit = benefit;
-  }
-}
+import {
+    DefaultDrugStrategy,
+    FervexStrategy,
+} from "../strategies/index.js";
 
-class DrugUpdateStrategy {
-  update(drug) {
-    throw new Error("Update method not implemented");
-  }
-}
-
-class DefaultDrugStrategy extends DrugUpdateStrategy {
-    update(drug) {
-
-    if (drug.benefit > 0) {
-      drug.benefit = Math.max(0, drug.benefit - 1);
-    }
-
-    drug.expiresIn -= 1;
-
-    if (drug.expiresIn < 0 && drug.benefit > 0) {
-      drug.benefit = Math.max(0, drug.benefit - 1);
-    }
-    
-  }
-}
 
 export class Pharmacy {
   constructor(drugs = []) {
     this.drugs = drugs;
 
     this.defaultDrugStrategy = new DefaultDrugStrategy();
+    this.fervexStrategy = new FervexStrategy();
   }
 
   updateBenefitValue() {
@@ -42,7 +19,7 @@ export class Pharmacy {
       if (this._isMagicPill(drug)) {
         this._updateMagicPill(drug);
       } else if (this._isFervex(drug)) {
-        this._updateFervex(drug);
+        this.fervexStrategy.update(drug);
       } else if (this._isHerbalTea(drug)) {
         this._updateHerbalTea(drug);
       } else {
@@ -69,32 +46,6 @@ export class Pharmacy {
 
   _updateMagicPill(drug) {
     // good drug 
-  }
-
-  _updateFervex(drug) {
-    if (drug.benefit < 50) {
-      drug.benefit = drug.benefit + 1;
-
-
-      if (drug.expiresIn < 11) {
-        if (drug.benefit < 50) {
-          drug.benefit = drug.benefit + 1;
-        }
-      }
-
-
-      if (drug.expiresIn < 6) {
-        if (drug.benefit < 50) {
-          drug.benefit = drug.benefit + 1;
-        }
-      }
-    }
-
-    drug.expiresIn = drug.expiresIn - 1;
-
-    if (drug.expiresIn < 0) {
-      drug.benefit = 0;
-    }
   }
 
   _updateHerbalTea(drug) {
